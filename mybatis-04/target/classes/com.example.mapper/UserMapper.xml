@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mapper.UserMapper">
+    
+    <resultMap id="userMapper" type="user">
+        <id column="uid" property="id"></id>
+        <result column="username" property="username"></result>
+        <result column="password" property="password"></result>
+        <result column="birthday" property="birthday"></result>
+        <!--
+        下面配置集合信息
+        property指的是当前实体的属性
+        ofType指的是当前实体的属性类型
+        -->
+        <collection property="orderList" ofType="order">
+            <id column="oid" property="id"></id>
+            <result column="ordertime" property="orderTime"></result>
+            <result column="total" property="total"></result>
+        </collection>
+    </resultMap>
+
+    <select id="findAll" resultMap="userMapper">
+        SELECT *,o.id oid FROM users u, orders o WHERE u.id=o.uid
+    </select>
+
+</mapper>

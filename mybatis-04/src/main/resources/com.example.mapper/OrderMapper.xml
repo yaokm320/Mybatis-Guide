@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mapper.OrderMapper">
+    
+    <resultMap id="orderMap" type="order">
+        <!--
+        手动去指定字段与实体属性的映射关系
+        就是将数据库查询得到的结果字段与java对象属性进行一个映射
+        column指的是数据库返回的结果字段
+        property指的是java对象里面的字段
+        -->
+        <id column="oid" property="id"></id>
+        <result column="ordertime" property="orderTime"></result>
+        <result column="total" property="total"></result>
+<!--        <result column="uid" property="user.id"></result>-->
+<!--        <result column="username" property="user.username"></result>-->
+<!--        <result column="password" property="user.password"></result>-->
+<!--        <result column="birthday" property="user.birthday"></result>-->
+        <!-- 另外的写法
+        property是当前实体（Order）的属性,即private User user;
+        javaType是当前实体的类型，即User，这里是我们起了别名
+        -->
+        <association property="user" javaType="user">
+            <result column="uid" property="id"></result>
+            <result column="username" property="username"></result>
+            <result column="password" property="password"></result>
+            <result column="birthday" property="birthday"></result>
+        </association>
+    </resultMap>
+
+    <select id="findAll" resultMap="orderMap">
+        <!-- 一对一查询，任何一个订单只能对应于一个用户 -->
+        select *,o.id oid from orders o,users u where o.uid=u.id
+    </select>
+
+</mapper>
