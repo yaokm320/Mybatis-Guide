@@ -1,6 +1,5 @@
 package com.example.test;
 
-
 import com.example.domain.User;
 import com.example.mapper.UserMapper;
 import org.apache.ibatis.io.Resources;
